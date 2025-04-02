@@ -17,19 +17,28 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+export type Position = {
+  skills: unknown
+  id: number,
+  name: string,
+  location: string,
+  logo: React.ElementType
+}
+
+type TPositionSwitcherProps = {
+  teams: Position[],
+  activePosition: Position | null,
+  setActivePosition: (position: Position) => void,
+}
+
 export function TeamSwitcher({
   teams,
-}: {
-  teams: {
-    name: string
-    logo: React.ElementType
-    plan: string
-  }[]
-}) {
+  activePosition,
+  setActivePosition,
+}: TPositionSwitcherProps) {
   const { isMobile } = useSidebar()
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
 
-  if (!activeTeam) {
+  if (!activePosition) {
     return null
   }
 
@@ -40,18 +49,18 @@ export function TeamSwitcher({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
             tooltip={isMobile ? {} : {
-              children: activeTeam.name,
+              children: activePosition.name,
               hidden: false,
             }}
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0 cursor-pointer"
             >
               <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <activeTeam.logo className="size-4" />
+                <activePosition.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeTeam.name}</span>
-                <span className="truncate text-xs">{activeTeam.plan}</span>
+                <span className="truncate font-medium">{activePosition.name}</span>
+                <span className="truncate text-xs">{activePosition.location}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -68,7 +77,7 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => setActivePosition(team)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">
