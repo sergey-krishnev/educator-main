@@ -12,10 +12,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Position, TeamSwitcher } from "./team-switcher"
-import { data } from "./constants"
+import { useGetProfessionsQuery } from "@/api/professionApi"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [activePosition, setActivePosition] = React.useState(data.positions[0])
+  const { data: professions, isLoading: isLoadingProfession } = useGetProfessionsQuery({
+  })
+  const [activePosition, setActivePosition] = React.useState(null)
   const [activeItem, setActiveItem] = React.useState(activePosition?.skills?.[0])
   const { setOpen } = useSidebar()
 
@@ -23,8 +25,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     setActivePosition(position)
     setActiveItem(position?.skills?.[0])
   }
-
-  console.log(activeItem)
 
   return (
     <Sidebar
@@ -37,13 +37,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
       >
         <SidebarHeader>
-          <TeamSwitcher teams={data.positions} activePosition={activePosition} setActivePosition={handleChangePosition} />
+          {!isLoadingProfession && <TeamSwitcher teams={professions} activePosition={activePosition} setActivePosition={handleChangePosition} />}
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarMenu>
-                {activePosition.skills.map((skill) => (
+                {activePosition?.skills?.map((skill) => (
                   <SidebarMenuItem key={skill.title}>
                     <SidebarMenuButton
                       tooltip={{
