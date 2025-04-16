@@ -14,16 +14,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import EmojiPicker, { Theme } from "emoji-picker-react";
-import { useAddProfessionMutation } from "@/api/professionApi";
+import { useAddNewSkillToProfessionMutation } from "@/api/professionApi";
 
 const formSchema = z.object({
     name: z.string().min(1, { message: "" }),
     icon: z.string().min(1, { message: "" }),
 });
 
-export default function AddProfessionForm({ setIsOpen }) {
+export default function AddSkillForm({activeProfessionId, setIsOpen }) {
 
-    const [add, { isLoading }] = useAddProfessionMutation()
+    console.log(activeProfessionId)
+
+    const [add, { isLoading }] = useAddNewSkillToProfessionMutation()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,7 +37,10 @@ export default function AddProfessionForm({ setIsOpen }) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            add(values)
+            add({
+                professionId: activeProfessionId,
+                ...values,
+            })
             console.log(values)
             setIsOpen(false)
         } catch (error) {
@@ -55,9 +60,9 @@ export default function AddProfessionForm({ setIsOpen }) {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Выберите имя для профессии</FormLabel>
+                            <FormLabel>Выберите имя для скилла</FormLabel>
                             <FormControl>
-                                <Input placeholder="Например, Дизайнер" {...field} />
+                                <Input placeholder="Например, JavaScript" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

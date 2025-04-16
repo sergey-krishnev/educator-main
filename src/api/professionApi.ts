@@ -25,9 +25,33 @@ export const professionApi = createApi({
         method: 'DELETE',
       }),
     }),
+    getSkillsByProfessionId: builder.query({
+      query: (id) => ({
+        url: `/${id}/skills`,
+        method: 'GET',
+      }),
+    }),
+    addNewSkillToProfession: builder.mutation<void, { name: string; icon: string; professionId: number; }>({
+      query: ({professionId, ...rest}) => ({
+        url: `/${professionId}/skills`,
+        method: "POST",
+        body: rest,
+      }),
+    }),
+    addExistedSkillToProfession: builder.mutation<void, { skillId: number; professionId: number; }>({
+      query: ({professionId, skillId}) => ({
+        url: `/${professionId}/skills/${skillId}`,
+        method: "PUT",
+      }),
+    }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetProfessionsQuery, useAddProfessionMutation, useRemoveProfessionByIdMutation } = professionApi
+export const { useGetProfessionsQuery,
+   useAddProfessionMutation,
+   useRemoveProfessionByIdMutation,
+   useGetSkillsByProfessionIdQuery,
+   useAddNewSkillToProfessionMutation,
+   useAddExistedSkillToProfessionMutation } = professionApi
