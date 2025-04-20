@@ -3,6 +3,7 @@ import * as React from "react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -14,18 +15,20 @@ import {
 import { Position, TeamSwitcher } from "./team-switcher"
 import { useGetProfessionsQuery, useGetSkillsByProfessionIdQuery } from "@/api/professionApi"
 import AddSkill from "./add-skill"
+import { Pencil, Plus, Trash2 } from "lucide-react"
+import { SidebarSkillTheories } from "./sidebar-skill-theories"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions  } = useGetProfessionsQuery({
+  const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions } = useGetProfessionsQuery({
   })
   const [activePosition, setActivePosition] = React.useState<Position | null>(null)
-  const { data: skills } = useGetSkillsByProfessionIdQuery(activePosition?.id, { skip: !activePosition?.id})
-  const [activeItem, setActiveItem] = React.useState(activePosition?.skills?.[0])
+  const { data: skills } = useGetSkillsByProfessionIdQuery(activePosition?.id, { skip: !activePosition?.id })
+  const [activeItem, setActiveItem] = React.useState(null)
   const { setOpen } = useSidebar()
 
   const handleChangePosition = (position: Position) => {
     setActivePosition(position)
-    setActiveItem(position?.skills?.[0])
+    setActiveItem(null)
   }
 
   React.useEffect(() => {
@@ -70,7 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-                {!isLoadingProfession && activePosition && <AddSkill activeProfessionId={activePosition.id}/>}
+                {!isLoadingProfession && activePosition && <AddSkill activeProfessionId={activePosition.id} />}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -80,27 +83,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
             <div className="text-foreground text-base font-medium">
-              Roadmap: {activeItem?.name}
+              {activeItem ? `Roadmap: ${activeItem?.name}` : "Select a skill"}
             </div>
+            {activeItem && <div className="flex items-center gap-1 ml-2">
+              <button
+                onClick={() => { }}
+                className="text-muted-foreground hover:text-foreground cursor-pointer"
+              >
+                <Pencil className="size-4" />
+              </button>
+              <button
+                onClick={() => { }}
+                className="text-muted-foreground hover:text-destructive cursor-pointer"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </div>}
           </div>
         </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup className="px-0">
-            <SidebarGroupContent>
-              {activeItem?.items?.map((item) => (
-                <a
-                  href="#"
-                  key={item.title}
-                  className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight last:border-b-0"
-                >
-                  <div className="flex w-full items-center gap-2">
-                    <span>{item.title}</span>{" "}
-                  </div>
-                </a>
-              ))}
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
+        <SidebarSkillTheories activeItem={activeItem}/>
       </Sidebar>
     </Sidebar>
   )
