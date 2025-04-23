@@ -16,7 +16,7 @@ import { Position, TeamSwitcher } from "./team-switcher"
 import { useGetProfessionsQuery, useGetSkillsByProfessionIdQuery } from "@/api/professionApi"
 import AddSkill from "./add-skill"
 import { Pencil, Plus, Trash2 } from "lucide-react"
-import { SidebarSkillTheories } from "./sidebar-skill-theories"
+import { SortableTree } from "./Tree/SortableTree"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions } = useGetProfessionsQuery({
@@ -101,7 +101,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </div>}
           </div>
         </SidebarHeader>
-        <SidebarSkillTheories activeItem={activeItem}/>
+        {activeItem &&
+          <>
+            <SidebarContent>
+              <SortableTree collapsible indicator removable />
+            </SidebarContent>
+            <SidebarFooter>
+              <button
+                onClick={() => {
+                }}
+                className="flex w-full items-center gap-2 rounded-md p-2 text-sm hover:bg-muted"
+              >
+                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                  <Plus className="size-4" />
+                </div>
+                <div className="text-muted-foreground font-medium">
+                  Add new theory
+                </div>
+              </button>
+            </SidebarFooter>
+          </>
+        }
       </Sidebar>
     </Sidebar>
   )
