@@ -1,8 +1,8 @@
 import { PlusIcon } from "lucide-react";
-import { SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
-import { ResponsiveDialog } from "./responsive-dialog";
+import { SidebarMenuButton, SidebarMenuItem } from "../../components/ui/sidebar";
+import { ResponsiveDialog } from "../../components/ui/responsive-dialog";
 import { useState } from "react";
-import AddSkillForm from "./add-skill-form";
+import AddSkillForm from "../../components/forms/add-skill-form";
 
 const AddSkill = ({
     activeProfessionId,

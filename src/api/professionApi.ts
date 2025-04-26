@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/config/apiConfig';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export type Profession = {
@@ -7,7 +8,7 @@ export type Profession = {
 
 export const professionApi = createApi({
   reducerPath: 'professionApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/professions' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${API_BASE_URL}/professions` }),
   endpoints: (builder) => ({
     getProfessions: builder.query({
       query: () => '',

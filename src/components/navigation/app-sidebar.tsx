@@ -3,7 +3,6 @@ import * as React from "react"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -12,11 +11,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Position, TeamSwitcher } from "./team-switcher"
 import { useGetProfessionsQuery, useGetSkillsByProfessionIdQuery } from "@/api/professionApi"
-import AddSkill from "./add-skill"
-import { Pencil, Plus, Trash2 } from "lucide-react"
-import { SortableTree } from "./Tree/SortableTree"
+import { Pencil, Trash2 } from "lucide-react"
+import AddSkill from "../../features/skills/add-skill"
+import { AddTheory } from "../../features/theories/add-theory"
+import { Position, ProfessionPicker } from "../../features/professions/profession-picker"
+import TreeTheories from "../../features/theories/tree-theories"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions } = useGetProfessionsQuery({
@@ -48,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
       >
         <SidebarHeader>
-          {!isLoadingProfession && <TeamSwitcher teams={professions} activePosition={activePosition} setActivePosition={handleChangePosition} />}
+          {!isLoadingProfession && <ProfessionPicker teams={professions} activePosition={activePosition} setActivePosition={handleChangePosition} />}
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
@@ -85,18 +85,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <div className="text-foreground text-base font-medium">
               {activeItem ? `Roadmap: ${activeItem?.name}` : "Select a skill"}
             </div>
-            {activeItem && <div className="flex items-center gap-1 ml-2">
+            {activeItem && <div className="flex items-center gap-1">
+              <AddTheory skillId={activeItem?.id}/>
               <button
                 onClick={() => { }}
                 className="text-muted-foreground hover:text-foreground cursor-pointer"
               >
-                <Pencil className="size-4" />
+                <Pencil width={18} />
               </button>
               <button
                 onClick={() => { }}
                 className="text-muted-foreground hover:text-destructive cursor-pointer"
               >
-                <Trash2 className="size-4" />
+                <Trash2 width={18} />
               </button>
             </div>}
           </div>
@@ -104,22 +105,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {activeItem &&
           <>
             <SidebarContent>
-              <SortableTree collapsible indicator removable />
+              <TreeTheories skillId={activeItem?.id} />
             </SidebarContent>
-            <SidebarFooter>
-              <button
-                onClick={() => {
-                }}
-                className="flex w-full items-center gap-2 rounded-md p-2 text-sm hover:bg-muted"
-              >
-                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                  <Plus className="size-4" />
-                </div>
-                <div className="text-muted-foreground font-medium">
-                  Add new theory
-                </div>
-              </button>
-            </SidebarFooter>
           </>
         }
       </Sidebar>

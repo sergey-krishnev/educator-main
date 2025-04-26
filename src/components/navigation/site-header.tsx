@@ -1,7 +1,7 @@
 import { Book, BookOpen, Coins, Star, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
-import { ModeToggle } from "./mode-toggle"
+import { ModeToggle } from "../ui/mode-toggle"
 
 export function SiteHeader() {
   const { toggleSidebar, open, } = useSidebar()

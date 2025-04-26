@@ -1,12 +1,14 @@
 import { professionApi } from '@/api/professionApi'
+import { skillApi } from '@/api/skillApi'
 import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
-    [professionApi.reducerPath]: professionApi.reducer
+    [professionApi.reducerPath]: professionApi.reducer,
+    [skillApi.reducerPath]: skillApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(professionApi.middleware),
+    getDefaultMiddleware().concat(professionApi.middleware).concat(skillApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

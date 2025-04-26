@@ -68,12 +68,13 @@
   
   .TreeItem {
     --vertical-padding: 0px;
+    --spacing: 0.25rem;
   
     position: relative;
     display: flex;
     align-items: center;
-    padding: var(--vertical-padding) 10px;
-    background-color: #fff;
+    padding: var(--vertical-padding) 1rem;
+    background-color: transparent;
     border: 1px solid #dedede;
     color: #222;
     box-sizing: border-box;

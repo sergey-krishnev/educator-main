@@ -1,7 +1,7 @@
 import { SidebarProvider } from "./components/ui/sidebar";
-import { SiteHeader } from "./components/site-header";
-import { AppSidebar } from "./components/app-sidebar";
 import { ThemeProvider } from "./components/theme-provider";
+import { SiteHeader } from "./components/navigation/site-header";
+import { AppSidebar } from "./components/navigation/app-sidebar";
 
 function App() {
   return (

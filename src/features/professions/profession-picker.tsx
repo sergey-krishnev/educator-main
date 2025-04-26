@@ -7,12 +7,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { ResponsiveDialog } from "./responsive-dialog"
-import AddProfessionForm from "./add-profession-form"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import EditProfessionForm from "./edit-profession-form"
-import { DialogFooter } from "./ui/dialog"
-import { Button } from "./ui/button"
+import { ResponsiveDialog } from "../../components/ui/responsive-dialog"
+import AddProfessionForm from "../../components/forms/add-profession-form"
+import { Popover, PopoverContent, PopoverTrigger } from "../../components/ui/popover"
+import EditProfessionForm from "../../components/forms/edit-profession-form"
+import { DialogFooter } from "../../components/ui/dialog"
+import { Button } from "../../components/ui/button"
 import { useRemoveProfessionByIdMutation } from "@/api/professionApi"
 
 export type Position = {
@@ -29,7 +29,7 @@ type TPositionSwitcherProps = {
   setActivePosition: (position: Position) => void,
 }
 
-export function TeamSwitcher({
+export function ProfessionPicker({
   teams,
   activePosition,
   setActivePosition,

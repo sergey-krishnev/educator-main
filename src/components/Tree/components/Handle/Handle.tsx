@@ -7,6 +7,7 @@ export const Handle = forwardRef<HTMLButtonElement, ActionProps>(
   (props, ref) => {
     return (
       <Action
+        className="text-muted-foreground hover:text-foreground cursor-pointer"
         ref={ref}
         cursor="grab"
         data-cypress="draggable-handle"

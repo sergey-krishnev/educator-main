@@ -1,17 +1,20 @@
-import React, {forwardRef, HTMLAttributes} from 'react';
+import React, { forwardRef, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 
 import styles from './TreeItem.module.css';
 import { Handle } from '../Handle';
 import { Action, ActionProps } from '../Action';
-import { Remove } from '../Remove';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Pencil, Trash2 } from 'lucide-react';
+import { AddTheory } from '@/features/theories/add-theory';
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
+  id: UniqueIdentifier;
   childCount?: number;
   clone?: boolean;
   collapsed?: boolean;
   depth: number;
+  skill?: number;
   disableInteraction?: boolean;
   disableSelection?: boolean;
   ghost?: boolean;
@@ -27,6 +30,7 @@ export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
 export const TreeItem = forwardRef<HTMLDivElement, Props>(
   (
     {
+      id,
       childCount,
       clone,
       depth,
@@ -70,15 +74,35 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
             <Action
               onClick={onCollapse}
               className={classNames(
+                'text-muted-foreground hover:text-foreground cursor-pointer',
                 styles.Collapse,
                 collapsed && styles.collapsed
               )}
             >
-              <ChevronDown width={20}/>
+              <ChevronDown width={20} />
             </Action>
           )}
-          <span className={styles.Text}>{value}</span>
-          {!clone && onRemove && <Remove onClick={onRemove} />}
+          <span
+            className="text-foreground text-base font-medium"
+            style={{ maxWidth: '170px', display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            title={value.length > 20 ? value : undefined}
+          >
+            {value}
+          </span>
+          {!clone &&
+            <div className='flex items-center gap-1 ml-auto'>
+              <AddTheory skillId={props.skill as number} parentTheory={{ id: id, title: value }} />
+              <button className="text-muted-foreground hover:text-foreground cursor-pointer"
+                onClick={() => { }}
+              >
+                <Pencil width={18} />
+              </button>
+              <button className="text-muted-foreground hover:text-destructive cursor-pointer"
+                onClick={onRemove}
+              >
+                <Trash2 width={18} />
+              </button>
+            </div>}
           {clone && childCount && childCount > 1 ? (
             <span className={styles.Count}>{childCount}</span>
           ) : null}

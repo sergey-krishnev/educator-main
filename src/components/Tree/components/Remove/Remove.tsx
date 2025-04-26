@@ -6,7 +6,7 @@ export function Remove(props: ActionProps) {
     <Action
       {...props}
     >
-      <Trash2 width={20} />
+      <Trash2 width={18} />
     </Action>
   );
 }

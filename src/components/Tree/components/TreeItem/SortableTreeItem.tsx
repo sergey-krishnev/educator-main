@@ -33,6 +33,7 @@ export function SortableTreeItem({id, depth, ...props}: Props) {
 
   return (
     <TreeItem
+      id={id}
       ref={setDraggableNodeRef}
       wrapperRef={setDroppableNodeRef}
       style={style}
