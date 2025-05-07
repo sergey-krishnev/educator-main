@@ -7,6 +7,7 @@ import { Action, ActionProps } from '../Action';
 import { ChevronDown, Pencil, Trash2 } from 'lucide-react';
 import { AddTheory } from '@/features/theories/add-theory';
 import { UniqueIdentifier } from '@dnd-kit/core';
+import EditTheory from '@/features/theories/edit-theory';
 
 export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   id: UniqueIdentifier;
@@ -45,6 +46,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
       onRemove,
       style,
       value,
+      content,
       wrapperRef,
       ...props
     },
@@ -92,11 +94,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
           {!clone &&
             <div className='flex items-center gap-1 ml-auto'>
               <AddTheory skillId={props.skill as number} parentTheory={{ id: id, title: value }} />
-              <button className="text-muted-foreground hover:text-foreground cursor-pointer"
-                onClick={() => { }}
-              >
-                <Pencil width={18} />
-              </button>
+              <EditTheory skillId={props.skill as number} theory={{ id: id, title: value, content: content }}/>
               <button className="text-muted-foreground hover:text-destructive cursor-pointer"
                 onClick={onRemove}
               >

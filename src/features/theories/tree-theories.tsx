@@ -2,7 +2,9 @@ import { useGetTheoriesBySkillIdQuery } from "@/api/skillApi"
 import { SortableTree } from "../../components/Tree/SortableTree"
 
 const TreeTheories = ({ skillId }) => {
-    const { data: theories, isLoading: isLoadingTheories } = useGetTheoriesBySkillIdQuery(skillId)
+    const { data: theories, isLoading: isLoadingTheories } = useGetTheoriesBySkillIdQuery(skillId, {
+        skip: !skillId
+    })
 
     if (isLoadingTheories) {
         return <div>Loading...</div>
@@ -14,10 +16,11 @@ const TreeTheories = ({ skillId }) => {
         name: theory.title,
         children: (theory.subTheories || []).map(transformToTreeData), // Рекурсивно преобразуем subtheories в children
         skill: theory.skill,
+        content: theory.content,
     })
 
     // Преобразуем весь массив theories
-    const treeData = theories.map(transformToTreeData)
+    const treeData = theories?.map(transformToTreeData)
 
     return (
         <SortableTree defaultItems={treeData} collapsible indicator removable />

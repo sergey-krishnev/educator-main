@@ -129,6 +129,10 @@ export function SortableTree({
     overId: UniqueIdentifier;
   } | null>(null);
 
+  useEffect(() => {
+    setItems(defaultItems);
+  }, [defaultItems]);
+
   const flattenedItems = useMemo(() => {
     const flattenedTree = flattenTree(items);
     const collapsedItems = flattenedTree.reduce<string[]>(
@@ -213,11 +217,12 @@ export function SortableTree({
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={sortedIds} strategy={verticalListSortingStrategy}>
-        {flattenedItems.map(({ id, name, skill, children, collapsed, depth }) => (
+        {flattenedItems.map(({ id, name, content, skill, children, collapsed, depth }) => (
           <SortableTreeItem
             key={id}
             id={id}
             value={name}
+            content={content}
             skill={skill}
             depth={id === activeId && projected ? projected.depth : depth}
             indentationWidth={indentationWidth}

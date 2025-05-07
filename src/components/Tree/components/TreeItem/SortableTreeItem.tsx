@@ -38,6 +38,7 @@ export function SortableTreeItem({id, depth, ...props}: Props) {
       wrapperRef={setDroppableNodeRef}
       style={style}
       depth={depth}
+      content={props.content}
       ghost={isDragging}
       disableSelection={iOS}
       disableInteraction={isSorting}

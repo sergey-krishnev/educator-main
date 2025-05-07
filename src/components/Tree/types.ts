@@ -4,6 +4,7 @@ import type {UniqueIdentifier} from '@dnd-kit/core';
 export interface TreeItem {
   id: UniqueIdentifier;
   name: string;
+  content?: string;
   children: TreeItem[];
   collapsed?: boolean;
   skill: number;

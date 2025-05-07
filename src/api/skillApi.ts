@@ -12,7 +12,7 @@ export const skillApi = createApi({
                 method: 'GET',
             }),
         }),
-        addNewTheoryToSkill: builder.mutation<void, { title: string; content: string; skillId: number; parent?: UniqueIdentifier | null }>({
+        addNewTheoryToSkill: builder.mutation<void, { title: string; content: string; skillId?: number; parent?: UniqueIdentifier | null }>({
             query: ({skillId, ...rest}) => ({
                 url: `/${skillId}/theories`,
                 method: "POST",
