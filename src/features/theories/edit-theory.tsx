@@ -3,7 +3,7 @@ import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
 import { Pencil } from "lucide-react";
 import { FC, useState } from "react";
 
-const EditTheory:FC<{skillId: number, theory?: any}> = ({theory}) => {
+const EditTheory:FC<{theory?: any}> = ({theory}) => {
     const [isEditOpen, setIsEditOpen] = useState(false)
     return (
         <>

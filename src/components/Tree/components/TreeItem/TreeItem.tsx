@@ -4,10 +4,11 @@ import classNames from 'classnames';
 import styles from './TreeItem.module.css';
 import { Handle } from '../Handle';
 import { Action, ActionProps } from '../Action';
-import { ChevronDown, Pencil, Trash2 } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { AddTheory } from '@/features/theories/add-theory';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import EditTheory from '@/features/theories/edit-theory';
+import DeleteTheory from '@/features/theories/delete-theory';
 
 export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   id: UniqueIdentifier;
@@ -85,21 +86,15 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
             </Action>
           )}
           <span
-            className="text-foreground text-base font-medium"
-            style={{ maxWidth: '170px', display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-            title={value.length > 20 ? value : undefined}
+            className="text-foreground text-base font-medium mr-2"
           >
             {value}
           </span>
           {!clone &&
             <div className='flex items-center gap-1 ml-auto'>
               <AddTheory skillId={props.skill as number} parentTheory={{ id: id, title: value }} />
-              <EditTheory skillId={props.skill as number} theory={{ id: id, title: value, content: content }}/>
-              <button className="text-muted-foreground hover:text-destructive cursor-pointer"
-                onClick={onRemove}
-              >
-                <Trash2 width={18} />
-              </button>
+              <EditTheory theory={{ id: id, title: value, content: content }}/>
+              <DeleteTheory onRemove={onRemove} theory={{id: id, title: value}}/> 
             </div>}
           {clone && childCount && childCount > 1 ? (
             <span className={styles.Count}>{childCount}</span>

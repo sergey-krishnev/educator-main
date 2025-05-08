@@ -247,7 +247,7 @@ export function SortableTree({
                 depth={activeItem.depth}
                 clone
                 childCount={getChildCount(items, activeId) + 1}
-                value={activeId.toString()}
+                value={flattenedItems.find(item => item.id === activeId)?.name || ''}
                 indentationWidth={indentationWidth}
               />
             ) : null}

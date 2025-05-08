@@ -12,7 +12,13 @@ export const theoryApi = createApi({
                 body: rest,
             }),
         }),
+        deleteTheory: builder.mutation<void, number>({
+            query: (id) => ({
+                url: `/${id}`,
+                method: "DELETE",
+            }),
+        }),
     }),
 })
 
-export const { useEditTheoryMutation } = theoryApi
+export const { useEditTheoryMutation, useDeleteTheoryMutation } = theoryApi
