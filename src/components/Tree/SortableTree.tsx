@@ -38,6 +38,7 @@ import type { FlattenedItem, SensorContext, TreeItems } from './types';
 import { sortableTreeKeyboardCoordinates } from './keyboardCoordinates';
 import { CSS } from '@dnd-kit/utilities';
 import { SortableTreeItem } from './components';
+import { useMoveTheoryMutation } from '@/api/skillApi';
 
 const initialItems: TreeItems = [
   {
@@ -128,6 +129,8 @@ export function SortableTree({
     parentId: UniqueIdentifier | null;
     overId: UniqueIdentifier;
   } | null>(null);
+
+  const [moveTheory] = useMoveTheoryMutation();
 
   useEffect(() => {
     setItems(defaultItems);
@@ -293,13 +296,23 @@ export function SortableTree({
       const overIndex = clonedItems.findIndex(({ id }) => id === over.id);
       const activeIndex = clonedItems.findIndex(({ id }) => id === active.id);
       const activeTreeItem = clonedItems[activeIndex];
-
       clonedItems[activeIndex] = { ...activeTreeItem, depth, parentId };
 
       const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
-      const newItems = buildTree(sortedItems);
 
+      const siblings = sortedItems.filter(item => parentId !== null ? item.parentId === parentId?.toString() : item.parentId === null);
+      const newIndexPosition = siblings.findIndex(item => item.id === active.id);
+      const skillId = siblings[0].skill
+
+      moveTheory({
+        skillId,
+        targetTheoryId: Number(active.id),
+        newParentId: parentId ? Number(parentId) : null,
+        newIndexPosition,
+      })
+      const newItems = buildTree(sortedItems);
       setItems(newItems);
+
     }
   }
 

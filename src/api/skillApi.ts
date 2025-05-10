@@ -19,7 +19,18 @@ export const skillApi = createApi({
                 body: rest,
             }),
         }),
+        moveTheory: builder.mutation<void, { skillId: number; targetTheoryId: number; newParentId?: number | null; newIndexPosition: number }>({
+            query: ({ skillId, targetTheoryId, newIndexPosition, newParentId }) => ({
+                url: `/${skillId}/theories/move-theory`,
+                method: 'PUT',
+                params: {
+                    targetTheoryId,
+                    newIndexPosition,
+                    ...(newParentId ? {newParentId} : {}),
+                },
+            }),
+        }),
     }),
 })
 
-export const { useGetTheoriesBySkillIdQuery, useAddNewTheoryToSkillMutation } = skillApi
+export const { useGetTheoriesBySkillIdQuery, useAddNewTheoryToSkillMutation, useMoveTheoryMutation } = skillApi
