@@ -304,6 +304,7 @@ export function SortableTree({
       const newIndexPosition = siblings.findIndex(item => item.id === active.id);
       const skillId = siblings[0].skill
 
+      //TODO: add maximum depth check
       moveTheory({
         skillId,
         targetTheoryId: Number(active.id),

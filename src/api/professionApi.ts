@@ -19,6 +19,18 @@ export const professionApi = createApi({
         method: "POST",
         body: data,
       }),
+      async onQueryStarted(_data, { dispatch, queryFulfilled }) {
+        try {
+          const { data: newProfession } = await queryFulfilled
+          dispatch(
+            professionApi.util.updateQueryData('getProfessions', {}, (draft) => {
+              draft.push(newProfession);
+            }),
+          )
+        } catch (error) {
+          console.error('Error in queryFulfilled:', error);
+        }
+      },
     }),
     removeProfessionById: builder.mutation<void, number>({
       query: (id) => ({
@@ -33,14 +45,14 @@ export const professionApi = createApi({
       }),
     }),
     addNewSkillToProfession: builder.mutation<void, { name: string; icon: string; professionId: number; }>({
-      query: ({professionId, ...rest}) => ({
+      query: ({ professionId, ...rest }) => ({
         url: `/${professionId}/skills`,
         method: "POST",
         body: rest,
       }),
     }),
     addExistedSkillToProfession: builder.mutation<void, { skillId: number; professionId: number; }>({
-      query: ({professionId, skillId}) => ({
+      query: ({ professionId, skillId }) => ({
         url: `/${professionId}/skills/${skillId}`,
         method: "PUT",
       }),
@@ -51,8 +63,8 @@ export const professionApi = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { useGetProfessionsQuery,
-   useAddProfessionMutation,
-   useRemoveProfessionByIdMutation,
-   useGetSkillsByProfessionIdQuery,
-   useAddNewSkillToProfessionMutation,
-   useAddExistedSkillToProfessionMutation } = professionApi
+  useAddProfessionMutation,
+  useRemoveProfessionByIdMutation,
+  useGetSkillsByProfessionIdQuery,
+  useAddNewSkillToProfessionMutation,
+  useAddExistedSkillToProfessionMutation } = professionApi

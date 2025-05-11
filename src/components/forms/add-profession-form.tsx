@@ -36,7 +36,6 @@ export default function AddProfessionForm({ setIsOpen }) {
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             add(values)
-            console.log(values)
             setIsOpen(false)
         } catch (error) {
             console.error("Form submission error", error);
