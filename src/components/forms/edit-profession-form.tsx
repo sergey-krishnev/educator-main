@@ -32,7 +32,7 @@ export default function EditProfessionForm({profession, setIsOpen }) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            add(values)
+            add({...values, id: profession.id})
             console.log(values)
             setIsOpen(false)
         } catch (error) {

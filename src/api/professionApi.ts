@@ -13,18 +13,20 @@ export const professionApi = createApi({
     getProfessions: builder.query({
       query: () => '',
     }),
-    addProfession: builder.mutation<{ id: string; name: string; icon: string }, { name: string; icon: string }>({
+    addProfession: builder.mutation<{ id: string; name: string; icon: string }, {id?: string; name: string; icon: string }>({
       query: (data) => ({
         url: "",
         method: "POST",
         body: data,
       }),
-      async onQueryStarted(_data, { dispatch, queryFulfilled }) {
+      async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
           const { data: newProfession } = await queryFulfilled
           dispatch(
             professionApi.util.updateQueryData('getProfessions', {}, (draft) => {
-              draft.push(newProfession);
+              return data?.id ?
+               draft.map((profession: { id: string | undefined; }) => profession.id === data.id ? newProfession : profession)
+               : [...draft, newProfession]
             }),
           )
         } catch (error) {
