@@ -17,6 +17,7 @@ import AddSkill from "../../features/skills/add-skill"
 import { AddTheory } from "../../features/theories/add-theory"
 import { Position, ProfessionPicker } from "../../features/professions/profession-picker"
 import TreeTheories from "../../features/theories/tree-theories"
+import DeleteSkill from "@/features/skills/delete-skill"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions } = useGetProfessionsQuery({
@@ -93,12 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               >
                 <Pencil width={18} />
               </button>
-              <button
-                onClick={() => { }}
-                className="text-muted-foreground hover:text-destructive cursor-pointer"
-              >
-                <Trash2 width={18} />
-              </button>
+              <DeleteSkill activeProfession={activePosition} skill={activeItem} />
             </div>}
           </div>
         </SidebarHeader>
