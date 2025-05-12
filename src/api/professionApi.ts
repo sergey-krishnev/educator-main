@@ -39,6 +39,18 @@ export const professionApi = createApi({
         url: `/${id}`,
         method: 'DELETE',
       }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          professionApi.util.updateQueryData('getProfessions', {}, (draft) => {
+            return draft.filter((profession: { id: number; }) => profession.id !== id)
+          }),
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+        }
+      },
     }),
     getSkillsByProfessionId: builder.query({
       query: (id) => ({
