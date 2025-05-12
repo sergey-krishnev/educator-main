@@ -5,7 +5,7 @@ import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
-const DeleteSkill = ({ activeProfession, skill }) => {
+const DeleteSkill = ({ activeProfession, skill, setSkill }) => {
 
     const [isRemoveOpen, setRemoveOpen] = useState(false)
     const [remove] = useDeleteSkillFromProfessionMutation()
@@ -13,6 +13,7 @@ const DeleteSkill = ({ activeProfession, skill }) => {
     const handleConfirmRemove = async (skillId: number, professionId: number) => {
         try {
             await remove({skillId, professionId}).unwrap();
+            setSkill(null);
             setRemoveOpen(false);
         } catch (error) {
             console.error("Failed to delete theory:", error);

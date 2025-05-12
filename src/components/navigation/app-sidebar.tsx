@@ -94,7 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               >
                 <Pencil width={18} />
               </button>
-              <DeleteSkill activeProfession={activePosition} skill={activeItem} />
+              <DeleteSkill activeProfession={activePosition} skill={activeItem} setSkill={setActiveItem}/>
             </div>}
           </div>
         </SidebarHeader>
