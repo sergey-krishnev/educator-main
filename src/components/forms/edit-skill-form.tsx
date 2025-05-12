@@ -1,0 +1,112 @@
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import EmojiPicker, { Theme } from "emoji-picker-react";
+import { useUpdateSkillMutation } from "@/api/skillApi";
+
+const formSchema = z.object({
+    name: z.string().min(1, { message: "" }),
+    icon: z.string().min(1, { message: "" }),
+});
+
+export default function EditSkillForm({ setIsOpen, skill, setSkill, activeProfessionId }) {
+
+    const [edit, { isLoading }] = useUpdateSkillMutation()
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: skill,
+    });
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            await edit({
+                ...values,
+                id: skill.id,
+                professionId: activeProfessionId,
+            }).unwrap();
+            setSkill((prev: any) => {
+                if (!prev) return prev;
+                return {
+                    ...prev,
+                    name: values.name,
+                    icon: values.icon,
+                };
+            })
+            setIsOpen(false)
+        } catch (error) {
+            console.error("Form submission error", error);
+            toast.error("Failed to submit the form. Please try again.");
+        }
+    }
+
+    return (
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6 w-full max-w-md mx-auto"
+            >
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Выберите имя для скилла</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Например, JavaScript" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Emoji field */}
+                <FormField
+                    control={form.control}
+                    name="icon"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Выберите эмодзи как иконку</FormLabel>
+                            <div className="border rounded-md p-2">
+                                <EmojiPicker
+                                    onEmojiClick={(emojiData) => {
+                                        field.onChange(emojiData.imageUrl);
+                                    }}
+                                    height={350}
+                                    width="100%"
+                                    lazyLoadEmojis
+                                    theme={Theme.DARK}
+                                />
+                            </div>
+                            <div className="flex text-sm mt-2 gap-1">
+                                {field.value ? (
+                                    <>
+                                        <p>Выбранный эмодзи: </p>
+                                        <img className="text-xl" width={20} height={20} src={field.value} />
+                                    </>
+                                ) : <p>Эмодзи не выбрано </p>}
+                            </div>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <div className="flex justify-end pt-4">
+                    <Button disabled={isLoading} type="submit">Сохранить</Button>
+                </div>
+            </form>
+        </Form>
+    );
+}
