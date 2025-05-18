@@ -15,7 +15,7 @@ export const AddTheories:FC<{skillId: number, parentTheory?: any, depth: number}
                 title="Add theory with subtheories"
                 description={description}
             >
-                <AddTheoriesForm skillId={skillId} setIsOpen={setIsAddOpen} parentTheoryId={parentTheory?.id} />
+                <AddTheoriesForm skillId={skillId} setIsOpen={setIsAddOpen} />
             </ResponsiveDialog>
             <button
                 onClick={() => setIsAddOpen(true)}
