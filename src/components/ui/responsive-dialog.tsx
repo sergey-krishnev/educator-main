@@ -41,7 +41,9 @@ export function ResponsiveDialog({
               <DialogDescription>{description}</DialogDescription>
             )}
           </DialogHeader>
-          {children}
+          <div className="overflow-y-auto max-h-[70vh]"> {/* Scrollable content */}
+            {children}
+          </div>
         </DialogContent>
       </Dialog>
     );
@@ -54,7 +56,9 @@ export function ResponsiveDialog({
           <DrawerTitle>{title}</DrawerTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DrawerHeader>
-        {children}
+        <div className="overflow-y-auto max-h-[70vh]"> {/* Scrollable content */}
+          {children}
+        </div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
