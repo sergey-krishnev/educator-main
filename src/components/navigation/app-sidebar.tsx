@@ -12,13 +12,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useGetProfessionsQuery, useGetSkillsByProfessionIdQuery } from "@/api/professionApi"
-import { Edit, Pencil, Trash2 } from "lucide-react"
 import AddSkill from "../../features/skills/add-skill"
 import { AddTheory } from "../../features/theories/add-theory"
 import { Position, ProfessionPicker } from "../../features/professions/profession-picker"
 import TreeTheories from "../../features/theories/tree-theories"
 import DeleteSkill from "@/features/skills/delete-skill"
 import EditSkill from "@/features/skills/edit-skill"
+import { AddTheories } from "@/features/theories/add-theories"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: professions, isLoading: isLoadingProfession, isSuccess: isSuccessProfessions } = useGetProfessionsQuery({
@@ -88,6 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {activeItem ? `Roadmap: ${activeItem?.name}` : "Select a skill"}
             </div>
             {activeItem && <div className="flex items-center gap-1">
+              <AddTheories skillId={activeItem?.id} depth={0}/>
               <AddTheory skillId={activeItem?.id} depth={0}/>
               <EditSkill skill={activeItem} activeProfessionId={activePosition?.id} setSkill={setActiveItem} />
               <DeleteSkill activeProfession={activePosition} skill={activeItem} setSkill={setActiveItem}/>

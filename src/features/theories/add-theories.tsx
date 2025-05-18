@@ -1,28 +1,28 @@
-import { Plus } from "lucide-react";
 import { FC, useState } from "react";
 import { ResponsiveDialog } from "../../components/ui/responsive-dialog";
-import AddTheoryForm from "../../components/forms/add-theory-form";
+import { ListPlus } from "lucide-react";
+import AddTheoriesForm from "@/components/forms/add-theories-form";
 
-export const AddTheory:FC<{skillId: number, parentTheory?: any, depth: number}> = ({skillId, parentTheory, depth}) => {
+export const AddTheories:FC<{skillId: number, parentTheory?: any, depth: number}> = ({skillId, parentTheory, depth}) => {
     const [isAddOpen, setIsAddOpen] = useState(false)
-    const description = parentTheory ? `Эта теория станет сабтеорией для теории: "${parentTheory?.title}"` : "Эта теория будет добавлена в корень дерева теорий"
+    const description = parentTheory ? `Эти теории станут сабтеорией для теории: "${parentTheory?.title}"` : "Эта теория будет добавлена в корень дерева теорий"
     const maxDepth = 3
     return (
         <>
             <ResponsiveDialog
                 isOpen={isAddOpen}
                 setIsOpen={setIsAddOpen}
-                title="Add theory"
+                title="Add theory with subtheories"
                 description={description}
             >
-                <AddTheoryForm skillId={skillId} setIsOpen={setIsAddOpen} parentTheoryId={parentTheory?.id} />
+                <AddTheoriesForm skillId={skillId} setIsOpen={setIsAddOpen} parentTheoryId={parentTheory?.id} />
             </ResponsiveDialog>
             <button
                 onClick={() => setIsAddOpen(true)}
                 disabled={depth > maxDepth}
                 className={`text-muted-foreground hover:text-foreground cursor-pointer ${depth > maxDepth ? "opacity-50 cursor-not-allowed hover:text-muted-foreground" : ""}`}
             >
-                <Plus width={18} />
+                <ListPlus width={18} />
             </button>
         </>
 
