@@ -88,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {activeItem ? `Roadmap: ${activeItem?.name}` : "Select a skill"}
             </div>
             {activeItem && <div className="flex items-center gap-1">
-              <AddTheory skillId={activeItem?.id}/>
+              <AddTheory skillId={activeItem?.id} depth={0}/>
               <EditSkill skill={activeItem} activeProfessionId={activePosition?.id} setSkill={setActiveItem} />
               <DeleteSkill activeProfession={activePosition} skill={activeItem} setSkill={setActiveItem}/>
             </div>}
