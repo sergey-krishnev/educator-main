@@ -92,7 +92,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
           </span>
           {!clone &&
             <div className='flex items-center gap-1 ml-auto'>
-              <AddTheory skillId={props.skill as number} parentTheory={{ id: id, title: value }} />
+              <AddTheory skillId={props.skill as number} parentTheory={{ id: id, title: value }} depth={depth} />
               <EditTheory theory={{ id: id, title: value, content: content }}/>
               <DeleteTheory onRemove={onRemove} theory={{id: id, title: value}}/> 
             </div>}
