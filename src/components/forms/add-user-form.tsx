@@ -32,7 +32,7 @@ export default function AddUserForm({ setIsOpen }) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            add(values.userName)
+            add({userName: values.userName})
             setIsOpen(false)
         } catch (error) {
             console.error("Form submission error", error);

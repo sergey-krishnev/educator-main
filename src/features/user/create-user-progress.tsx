@@ -6,13 +6,13 @@ import React from "react";
 const CreateUserProgress = () => {
     const [isAddOpen, setIsAddOpen] = React.useState(false);
 
-    const { data: userProgress, isSuccess } = useGetUserProgressQuery({})
+    const { data: userProgress, isError } = useGetUserProgressQuery({})
 
     React.useEffect(() => {
-        if (isSuccess && !userProgress) {
+        if (isError && !userProgress) {
             setIsAddOpen(true);
         }
-    }, [isSuccess, userProgress]);
+    }, [isError, userProgress]);
 
     return (
         <ResponsiveDialog isOpen={isAddOpen}
