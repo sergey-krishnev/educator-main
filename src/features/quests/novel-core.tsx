@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Character, Novel, novel, Scene } from "./novel-template";
+import { Character, Novel, Scene } from "./novel-template";
 
 const getCharacter = (scene: Scene, novel: Novel) => {
   if (!scene.speaker) return null;
@@ -16,7 +16,7 @@ const getAvatar = (scene: Scene, character: Character | null) => {
   return Object.values(emotions)[0] || null;
 };
 
-const NovelCore = () => {
+const NovelCore = ({novel, handleExit}) => {
 
   const [sceneId, setSceneId] = useState(novel.meta.startScene);
   const [background, setBackground] = useState(
@@ -36,7 +36,11 @@ const NovelCore = () => {
   };
 
   const handleNext = () => {
-    if (scene.next) goToScene(scene.next);
+    if (scene.next) {
+      goToScene(scene.next)
+    } else {
+      handleExit()
+    };
   };
 
   const handleChoice = (choice) => {
@@ -79,7 +83,7 @@ const NovelCore = () => {
           {scene.text}
         </div>
         {scene.choices && scene.choices.length > 0 ? (
-          <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
             {scene.choices.map((choice, idx) => (
               <button
                 key={idx}
@@ -94,7 +98,6 @@ const NovelCore = () => {
           <button
             onClick={handleNext}
             className="px-6 py-2 text-[16px] rounded-lg border-none bg-indigo-500 text-white cursor-pointer"
-            disabled={!scene.next}
           >
             {scene.next ? "Далее" : "Конец"}
           </button>
