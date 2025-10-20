@@ -4,6 +4,7 @@ import { SiteHeader } from "./components/navigation/site-header";
 import { AppSidebar } from "./components/navigation/app-sidebar";
 import CreateUserProgress from "./features/user/create-user-progress";
 import { Preview } from "./features/quests/quests";
+import OverlayVRoidChat from "./features/companion/companion";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <NovelCore />
                 <VoiceRecorder />
               </div> */}
+              <OverlayVRoidChat/>
             </SidebarInset>
           </div>
         </SidebarProvider>
