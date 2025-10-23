@@ -1,3 +1,5 @@
+<img width="1280" height="596" alt="image" src="https://github.com/user-attachments/assets/9188c3a8-3eb7-40bf-b8b5-59508789fbb4" />
+
 # React + TypeScript + Vite
 Frontend for Education Platform
 
